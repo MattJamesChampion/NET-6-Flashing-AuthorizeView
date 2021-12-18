@@ -6,7 +6,7 @@
 <AuthorizeView>
     <NotAuthorized>
         <h1>Text inside an <code>AuthorizeView</code> element</h1>
-        @if (ConditionIsTrue)
+        @if (DisplayCondition)
         {
             <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
         }
@@ -23,30 +23,51 @@
 
 @code {
     public bool RunLoop;
-    public bool ConditionIsTrue = true;
+    public bool DisplayCondition = true;
     public List<string> Messages = new();
     public int CallsToStateHasChanged = 0;
+    protected CancellationTokenSource TimerTokenSource;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void LoadData()
     {
-        if (firstRender)
-        {
-            await StartTimerLoop();        
-        }
-        base.OnAfterRender(firstRender);
+        DisplayCondition = true;
     }
 
-    private async Task StartTimerLoop()
+    protected override async Task OnInitializedAsync()
     {
-        while(true)
+        LoadData();
+
+        TimerTokenSource = new CancellationTokenSource();
+        StartTimerLoop(TimerTokenSource.Token);
+
+        await base.OnInitializedAsync();
+    }
+
+    protected async void StartTimerLoop(CancellationToken ct)
+    {
+        try
         {
-            if (RunLoop)
+            while (true)
             {
+                ct.ThrowIfCancellationRequested();
+
+                LoadData();
                 StateHasChanged();
-                CallsToStateHasChanged++;
-                Messages.Add($"Called StateHasChanged #{CallsToStateHasChanged}");
+
+                await Task.Delay(5000, ct);
             }
-            await Task.Delay(1000);
         }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    public void Dispose()
+    {
+        TimerTokenSource?.Cancel();
+        TimerTokenSource?.Dispose();
     }
 }
