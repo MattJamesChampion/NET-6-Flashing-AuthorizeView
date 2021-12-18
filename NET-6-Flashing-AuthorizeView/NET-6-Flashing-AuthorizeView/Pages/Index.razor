@@ -1,1 +1,8 @@
 ﻿@page "/"
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h1>Text inside an <code>AuthorizeView</code> element</h1>
+    </NotAuthorized>
+</AuthorizeView>
+<h1>Text outside an <code>AuthorizeView</code> element</h1>
