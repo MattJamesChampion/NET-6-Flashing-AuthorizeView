@@ -1,8 +1,52 @@
 ﻿@page "/"
 
+<label for="runLoop">Run loop:</label><input id="runLoop" type="checkbox" @bind="RunLoop">
+
+
 <AuthorizeView>
     <NotAuthorized>
         <h1>Text inside an <code>AuthorizeView</code> element</h1>
+        @if (ConditionIsTrue)
+        {
+            <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
+        }
     </NotAuthorized>
 </AuthorizeView>
 <h1>Text outside an <code>AuthorizeView</code> element</h1>
+
+<ul>
+    @foreach(var message in Enumerable.Reverse(Messages))
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+    public bool RunLoop;
+    public bool ConditionIsTrue = true;
+    public List<string> Messages = new();
+    public int CallsToStateHasChanged = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await StartTimerLoop();        
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    private async Task StartTimerLoop()
+    {
+        while(true)
+        {
+            if (RunLoop)
+            {
+                StateHasChanged();
+                CallsToStateHasChanged++;
+                Messages.Add($"Called StateHasChanged #{CallsToStateHasChanged}");
+            }
+            await Task.Delay(1000);
+        }
+    }
+}
