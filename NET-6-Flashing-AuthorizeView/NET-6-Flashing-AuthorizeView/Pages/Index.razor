@@ -2,15 +2,36 @@
 @using System.Threading
 @implements IDisposable
 
-<AuthorizeView Policy="TestPolicy">
-    <Authorized>
-        <h1>Text inside an <code>AuthorizeView</code> (authorized) element</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>Text inside an <code>AuthorizeView</code> (not authorized) element</h1>
-    </NotAuthorized>
-</AuthorizeView>
-<h1>Text outside an <code>AuthorizeView</code> element</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Policy</th>
+            <th>Authorized Text</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>None</td>
+            <td>Example Text</td>
+        </tr>
+        <tr>
+            <td>InstantPolicy</td>
+            <AuthorizeView Policy="InstantPolicy">
+                <Authorized>
+                    <td>Example Text</td>
+                </Authorized>
+            </AuthorizeView>
+        </tr>
+        <tr>
+            <td>TaskDelayPolicy</td>
+            <AuthorizeView Policy="TaskDelayPolicy">
+                <Authorized>
+                    <td>Example Text</td>
+                </Authorized>
+            </AuthorizeView>
+        </tr>
+    </tbody>
+</table>
 
 @code {
     public List<string> Messages = new();

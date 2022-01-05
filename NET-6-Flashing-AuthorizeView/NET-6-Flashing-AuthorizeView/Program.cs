@@ -11,13 +11,19 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAuthorization(config =>
 {
-    config.AddPolicy("TestPolicy", policy =>
+    config.AddPolicy("TaskDelayPolicy", policy =>
     {
-        policy.Requirements.Add(new Requirements.TestRequirement());
+        policy.Requirements.Add(new Requirements.TaskDelayRequirement());
+    });
+
+    config.AddPolicy("InstantPolicy", policy =>
+    {
+        policy.Requirements.Add(new Requirements.InstantRequirement());
     });
 });
 
-builder.Services.AddSingleton<IAuthorizationHandler, Handlers.TestHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, Handlers.TaskDelayHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, Handlers.InstantHandler>();
 
 var app = builder.Build();
 
