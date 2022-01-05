@@ -2,6 +2,22 @@
 @using System.Threading
 @implements IDisposable
 
+<style>
+    table {
+        width:25%;
+        margin: 10px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+</style>
+
 <table>
     <thead>
         <tr>
@@ -15,7 +31,7 @@
             <td>Example Text</td>
         </tr>
         <tr>
-            <td>InstantPolicy</td>
+            <td>Instant</td>
             <AuthorizeView Policy="InstantPolicy">
                 <Authorized>
                     <td>Example Text</td>
@@ -23,7 +39,7 @@
             </AuthorizeView>
         </tr>
         <tr>
-            <td>TaskDelayPolicy</td>
+            <td>Task.Delay(1)</td>
             <AuthorizeView Policy="TaskDelayPolicy">
                 <Authorized>
                     <td>Example Text</td>
