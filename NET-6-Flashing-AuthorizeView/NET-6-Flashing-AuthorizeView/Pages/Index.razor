@@ -2,50 +2,22 @@
 @using System.Threading
 @implements IDisposable
 
-<label for="runLoop">Run loop:</label><input id="runLoop" type="checkbox" @bind="RunLoop">
-
-
 <AuthorizeView Policy="TestPolicy">
     <Authorized>
         <h1>Text inside an <code>AuthorizeView</code> (authorized) element</h1>
-        @if (DisplayCondition)
-        {
-            <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
-        }
     </Authorized>
     <NotAuthorized>
         <h1>Text inside an <code>AuthorizeView</code> (not authorized) element</h1>
-        @if (DisplayCondition)
-        {
-            <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
-        }
     </NotAuthorized>
 </AuthorizeView>
 <h1>Text outside an <code>AuthorizeView</code> element</h1>
 
-<ul>
-    @foreach(var message in Enumerable.Reverse(Messages))
-    {
-        <li>@message</li>
-    }
-</ul>
-
 @code {
-    public bool RunLoop;
-    public bool DisplayCondition = true;
     public List<string> Messages = new();
-    public int CallsToStateHasChanged = 0;
     protected CancellationTokenSource TimerTokenSource;
-
-    private void LoadData()
-    {
-        DisplayCondition = true;
-    }
 
     protected override async Task OnInitializedAsync()
     {
-        LoadData();
-
         TimerTokenSource = new CancellationTokenSource();
         StartTimerLoop(TimerTokenSource.Token);
 
@@ -60,7 +32,6 @@
             {
                 ct.ThrowIfCancellationRequested();
 
-                LoadData();
                 StateHasChanged();
 
                 await Task.Delay(500, ct);
