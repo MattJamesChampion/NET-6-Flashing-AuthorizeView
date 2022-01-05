@@ -1,11 +1,20 @@
 ﻿@page "/"
+@using System.Threading
+@implements IDisposable
 
 <label for="runLoop">Run loop:</label><input id="runLoop" type="checkbox" @bind="RunLoop">
 
 
-<AuthorizeView>
+<AuthorizeView Policy="TestPolicy">
+    <Authorized>
+        <h1>Text inside an <code>AuthorizeView</code> (authorized) element</h1>
+        @if (DisplayCondition)
+        {
+            <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
+        }
+    </Authorized>
     <NotAuthorized>
-        <h1>Text inside an <code>AuthorizeView</code> element</h1>
+        <h1>Text inside an <code>AuthorizeView</code> (not authorized) element</h1>
         @if (DisplayCondition)
         {
             <h1>Conditional text inside an <code>AuthorizeView</code> element</h1>        
@@ -54,7 +63,7 @@
                 LoadData();
                 StateHasChanged();
 
-                await Task.Delay(5000, ct);
+                await Task.Delay(500, ct);
             }
         }
         catch (OperationCanceledException)
