@@ -12,3 +12,18 @@ This repository is designed to reproduce an issue in .NET 6 where `StateHasChang
 6. Update the project to .NET 5
 7. Run the project again
 8. Note that the text alongside the "Task.Delay(1)" policy no longer visibly flashes when `StateHasChanged` is being called with no other code changes (a breakpoint can be added to line 80 in `Index.razor` to confirm that the timer is running and `StateHasChanged` is still being called correctly
+
+## Software Versions
+I've not seen anything that indicates this error only occurs on specific versions (other than generally working in .NET 5 and not working in .NET 6), but I've been using the following versions during testing:
+- SDKs (latest at time of writing)
+  - .NET 5.0.404
+  - .NET 6.0.101
+- Operating System
+  - Windows 10 21H1
+  - macOS Big Sur 11.6
+- IDEs
+  - Visual Studio Community 2022 17.0.4 (Windows)
+  - JetBrains Rider 2021.3.2 (macOS)
+- Browsers (identical versions on macOS and Windows 10)
+  - Chrome 97.0.4692.71 (64-bit)
+  - Firefox 95.0.2 (64-bi
