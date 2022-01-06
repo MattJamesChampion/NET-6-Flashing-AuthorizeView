@@ -26,18 +26,23 @@ namespace NET_6_Flashing_AuthorizeView
 
             services.AddAuthorization(config =>
             {
-                config.AddPolicy("TaskDelayPolicy", policy =>
-                {
-                    policy.Requirements.Add(new Requirements.TaskDelayRequirement());
-                });
                 config.AddPolicy("InstantPolicy", policy =>
                 {
                     policy.Requirements.Add(new Requirements.InstantRequirement());
                 });
+                config.AddPolicy("TaskDelayPolicy", policy =>
+                {
+                    policy.Requirements.Add(new Requirements.TaskDelayRequirement());
+                });
+                config.AddPolicy("ThreadSleepPolicy", policy =>
+                {
+                    policy.Requirements.Add(new Requirements.ThreadSleepRequirement());
+                });
             });
 
-            services.AddSingleton<IAuthorizationHandler, Handlers.TaskDelayHandler>();
             services.AddSingleton<IAuthorizationHandler, Handlers.InstantHandler>();
+            services.AddSingleton<IAuthorizationHandler, Handlers.TaskDelayHandler>();
+            services.AddSingleton<IAuthorizationHandler, Handlers.ThreadSleepHandler>();
 
         }
 
