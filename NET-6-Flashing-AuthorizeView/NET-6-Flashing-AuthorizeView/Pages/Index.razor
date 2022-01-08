@@ -39,16 +39,16 @@
             </AuthorizeView>
         </tr>
         <tr>
-            <td>Task.Delay(1)</td>
-            <AuthorizeView Policy="TaskDelayPolicy">
+            <td>Thread.Sleep(1)</td>
+            <AuthorizeView Policy="ThreadSleepPolicy">
                 <Authorized>
                     <td>Example Text</td>
                 </Authorized>
             </AuthorizeView>
         </tr>
         <tr>
-            <td>Thread.Sleep(1)</td>
-            <AuthorizeView Policy="ThreadSleepPolicy">
+            <td>Task.Delay(1)</td>
+            <AuthorizeView Policy="TaskDelayPolicy">
                 <Authorized>
                     <td>Example Text</td>
                 </Authorized>

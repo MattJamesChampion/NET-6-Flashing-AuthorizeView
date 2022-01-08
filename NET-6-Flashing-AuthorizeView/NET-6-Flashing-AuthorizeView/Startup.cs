@@ -30,20 +30,19 @@ namespace NET_6_Flashing_AuthorizeView
                 {
                     policy.Requirements.Add(new Requirements.InstantRequirement());
                 });
-                config.AddPolicy("TaskDelayPolicy", policy =>
-                {
-                    policy.Requirements.Add(new Requirements.TaskDelayRequirement());
-                });
                 config.AddPolicy("ThreadSleepPolicy", policy =>
                 {
                     policy.Requirements.Add(new Requirements.ThreadSleepRequirement());
                 });
+                config.AddPolicy("TaskDelayPolicy", policy =>
+                {
+                    policy.Requirements.Add(new Requirements.TaskDelayRequirement());
+                });
             });
 
             services.AddSingleton<IAuthorizationHandler, Handlers.InstantHandler>();
-            services.AddSingleton<IAuthorizationHandler, Handlers.TaskDelayHandler>();
             services.AddSingleton<IAuthorizationHandler, Handlers.ThreadSleepHandler>();
-
+            services.AddSingleton<IAuthorizationHandler, Handlers.TaskDelayHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

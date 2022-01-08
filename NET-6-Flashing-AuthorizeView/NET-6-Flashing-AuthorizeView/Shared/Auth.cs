@@ -10,11 +10,11 @@ namespace NET_6_Flashing_AuthorizeView.Shared
         {
         }
 
-        public class TaskDelayRequirement : IAuthorizationRequirement
+        public class ThreadSleepRequirement : IAuthorizationRequirement
         {
         }
 
-        public class ThreadSleepRequirement : IAuthorizationRequirement
+        public class TaskDelayRequirement : IAuthorizationRequirement
         {
         }
     }
@@ -30,15 +30,6 @@ namespace NET_6_Flashing_AuthorizeView.Shared
             }
         }
 
-        public class TaskDelayHandler : AuthorizationHandler<Requirements.TaskDelayRequirement>
-        {
-            protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, Requirements.TaskDelayRequirement requirement)
-            {
-                await Task.Delay(1);
-                context.Succeed(requirement);
-            }
-        }
-
         public class ThreadSleepHandler : AuthorizationHandler<Requirements.ThreadSleepRequirement>
         {
             protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, Requirements.ThreadSleepRequirement requirement)
@@ -46,6 +37,15 @@ namespace NET_6_Flashing_AuthorizeView.Shared
                 Thread.Sleep(1);
                 context.Succeed(requirement);
                 return Task.CompletedTask;
+            }
+        }
+
+        public class TaskDelayHandler : AuthorizationHandler<Requirements.TaskDelayRequirement>
+        {
+            protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, Requirements.TaskDelayRequirement requirement)
+            {
+                await Task.Delay(1);
+                context.Succeed(requirement);
             }
         }
     }
